@@ -9,17 +9,17 @@ use Exception;
 
 class BuildingController extends Controller
 {
-    public function create(Request $req) {
+    public function create(Request $request) {
 
-        $req->validate([
+        $request->validate([
             'name' => 'required',
             'address' => 'required',
         ]);
 
         $building = new Building();
 
-        $building->name = $req->name;
-        $building->address = $req->address;
+        $building->name = $request->name;
+        $building->address = $request->address;
 
         $building->save();
 
@@ -32,14 +32,14 @@ class BuildingController extends Controller
         return response($building, 200);
     }
 
-    public function update(Request $req, $id) {
+    public function update(Request $request, $id) {
         try {
             $building = Building::find($id);
         } catch(\Throwable $ex) {
             return response($ex->getMessage, 400);
         }
         
-        $building->update($req->all());
+        $building->update($request->all());
 
         return response('Success', 200);
     }
