@@ -45,13 +45,13 @@ class RoomController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Room  $room
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($room)
+    public function show($id)
     {
         try {
-            Room::findOrFail($room);
+            Room::findOrFail($id);
         } catch (\Exception $ex) {
             return response(
                 [
@@ -60,7 +60,7 @@ class RoomController extends Controller
                 ], 404);
         }
 
-        return response(Room::findOrFail($room), 200);
+        return response(Room::findOrFail($id), 200);
     }
 
     /**
@@ -80,13 +80,13 @@ class RoomController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Room  $room
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Room $room)
+    public function destroy($id)
     {
         try {
-            Room::findOrFail($room);
+            Room::findOrFail($id);
         } catch (\Exception $ex) {
             return response(
                 [
@@ -95,7 +95,7 @@ class RoomController extends Controller
                 ], 404);
         }
 
-        Room::find($room)->delete();
+        Room::find($id)->delete();
 
         return response('Success', 200);
     }
