@@ -27,7 +27,7 @@ class FloorController extends Controller
      */
     public function store(Request $request)
     {
-        $valid = $request->validate([
+        $request->validate([
             'building_id' => 'bail|required',
             'number' => 'required'
         ]);
@@ -40,13 +40,13 @@ class FloorController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  id  $floor
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($floor)
+    public function show($id)
     {
         try {
-            Floor::findOrFail($floor);
+            Floor::findOrFail($id);
         } catch (\Exception $ex) {
             return response(
                 [
@@ -55,7 +55,7 @@ class FloorController extends Controller
                 ], 404);
         }
 
-        return response(Floor::findOrFail($floor), 200);
+        return response(Floor::findOrFail($id), 200);
     }
 
     /**
@@ -75,13 +75,13 @@ class FloorController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  id  $floor
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($floor)
+    public function destroy($id)
     {
         try {
-            Floor::findOrFail($floor);
+            Floor::findOrFail($id);
         } catch (\Exception $ex) {
             return response(
                 [
@@ -90,7 +90,7 @@ class FloorController extends Controller
                 ], 404);
         }
 
-        Floor::find($floor)->delete();
+        Floor::find($id)->delete();
 
         return response('Success', 200);
     }
