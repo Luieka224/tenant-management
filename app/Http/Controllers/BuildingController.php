@@ -4,53 +4,93 @@ namespace App\Http\Controllers;
 
 use App\Models\Building;
 use Illuminate\Http\Request;
-use Illuminate\Database\QueryException;
-use Exception;
 
 class BuildingController extends Controller
 {
-    public function create(Request $request) {
-
-        $request->validate([
-            'name' => 'required',
-            'address' => 'required',
-        ]);
-
-        $building = new Building();
-
-        $building->name = $request->name;
-        $building->address = $request->address;
-
-        $building->save();
-
-        return response('Success', 200);
-    }
-
-    public function read() {
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
         $building = Building::paginate(10);
-        
+
         return response($building, 200);
     }
 
-    public function update(Request $request, $id) {
-        try {
-            $building = Building::find($id);
-        } catch(\Throwable $ex) {
-            return response($ex->getMessage, 400);
-        }
-        
-        $building->update($request->all());
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        $request->validate([
+            'name'=> 'bail|required',
+            'address' => 'required'
+        ]);
+
+        Building::create($request->all());
 
         return response('Success', 200);
     }
 
-    public function delete($id) {
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
         try {
-            $building = Building::find($id);
-            $building->delete();
-        } catch(Exception $ex) {
-            return response('Invalid request', 400);
-        }      
+            Building::findOrFail($id);
+        } catch (\Exception $ex) {
+            return response(
+                [
+                    'message'=>'Building ID does not exist!',
+                    'exception'=>$ex->getMessage()
+                ], 404);
+        }
+
+        return response(Building::find($id), 200);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Building  $building
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, Building $building)
+    {
+        $building->update($request->all());
+
+        return response('Successs', 200);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        try {
+            Building::findOrFail($id);
+        } catch (\Exception $ex) {
+            return response(
+                [
+                    'message'=>'Building ID does not exist!',
+                    'exception'=>$ex->getMessage()
+                ], 404);
+        }
+
+        Building::find($id)->delete();
 
         return response('Success', 200);
     }
