@@ -3,6 +3,7 @@
 use App\Http\Controllers\BuildingController;
 use App\Http\Controllers\FloorController;
 use App\Http\Controllers\RoomController;
+use GuzzleHttp\Middleware;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -25,10 +26,19 @@ Route::get('/', function () {
     return response('Home', 200);
 });
 
-Route::post('building', [BuildingController::class, 'create']);
-Route::get('building', [BuildingController::class, 'read']);
-Route::put('building/{id}', [BuildingController::class, 'update']);
-Route::delete('building/{id}', [BuildingController::class, 'delete']);
+// Route::post('building', [BuildingController::class, 'create']);
+// Route::get('building', [BuildingController::class, 'read']);
+// Route::put('building/{id}', [BuildingController::class, 'update']);
+// Route::delete('building/{id}', [BuildingController::class, 'delete']);
 
-Route::apiResource('floor', FloorController::class);
-Route::apiResource('room', RoomController::class);
+
+
+Route::middleware(['auth:sanctum'])->group(function() {
+    Route::apiResource('building', BuildingController::class);
+    Route::apiResource('floor', FloorController::class);
+    Route::apiResource('room', RoomController::class);
+});
+
+Route::get('floor', [FloorController::class, 'index']);
+Route::get('room', [RoomController::class, 'index']);
+Route::get('building', [BuildingController::class, 'index']);
