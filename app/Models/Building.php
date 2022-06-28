@@ -13,4 +13,8 @@ class Building extends Model
         'name',
         'address'
     ];
+
+    public function floor() {
+        return $this->hasMany(Floor::class);
+    }
 }

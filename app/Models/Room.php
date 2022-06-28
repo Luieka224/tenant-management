@@ -18,4 +18,8 @@ class Room extends Model
         'price',
         'is_available'
     ];
+
+    public function room() {
+        return $this->belongsTo(Floor::class);
+    }
 }
