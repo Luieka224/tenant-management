@@ -3,6 +3,7 @@
 use App\Http\Controllers\BuildingController;
 use App\Http\Controllers\FloorController;
 use App\Http\Controllers\RoomController;
+use App\Http\Controllers\TestController;
 use GuzzleHttp\Middleware;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -42,3 +43,5 @@ Route::middleware(['auth:sanctum'])->group(function() {
 Route::get('floor', [FloorController::class, 'index']);
 Route::get('room', [RoomController::class, 'index']);
 Route::get('building', [BuildingController::class, 'index']);
+
+Route::apiResource('test', TestController::class);
