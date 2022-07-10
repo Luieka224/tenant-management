@@ -4,6 +4,8 @@ use App\Http\Controllers\BuildingController;
 use App\Http\Controllers\FloorController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\TestController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\UserInfoController;
 use GuzzleHttp\Middleware;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -27,17 +29,16 @@ Route::get('/', function () {
     return response('Home', 200);
 });
 
-// Route::post('building', [BuildingController::class, 'create']);
-// Route::get('building', [BuildingController::class, 'read']);
-// Route::put('building/{id}', [BuildingController::class, 'update']);
-// Route::delete('building/{id}', [BuildingController::class, 'delete']);
-
-
-
 Route::middleware(['auth:sanctum'])->group(function() {
     Route::apiResource('building', BuildingController::class);
     Route::apiResource('floor', FloorController::class);
     Route::apiResource('room', RoomController::class);
+    Route::apiResource('user-info', UserInfoController::class);
+
+    Route::get('user', [UserController::class, 'index']);
+    Route::get('my-rooms', [UserController::class, 'getMyRooms']);
+    
+    Route::post('get-room', [RoomController::class, 'getRoom']);
 });
 
 Route::get('floor', [FloorController::class, 'index']);
