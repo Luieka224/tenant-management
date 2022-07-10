@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Room;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class RoomController extends Controller
@@ -14,7 +15,7 @@ class RoomController extends Controller
      */
     public function index()
     {
-        $rooms = Room::paginate(10);
+        $rooms = Room::with(['floor', 'floor.building'])->paginate(10);
 
         return response($rooms, 200);
     }
@@ -98,5 +99,14 @@ class RoomController extends Controller
         Room::find($id)->delete();
 
         return response('Success', 200);
+    }
+
+    public function getRoom(int $room_id)
+    {
+        $room = Room::findOrFail($room_id);
+
+        return $room->update([
+            'user_id' => auth()->user()->id
+        ]);
     }
 }

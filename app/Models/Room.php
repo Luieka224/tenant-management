@@ -19,7 +19,17 @@ class Room extends Model
         'is_available'
     ];
 
-    public function room() {
+    public function floor() {
         return $this->belongsTo(Floor::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function room_type()
+    {
+        return $this->belongsTo(RoomType::class);
     }
 }
