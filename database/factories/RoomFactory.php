@@ -21,6 +21,7 @@ class RoomFactory extends Factory
             'no_of_bed' => $this->faker->numberBetween(1, 4),
             'price' => $this->faker->randomFloat(2, 10000, 99999),
             'is_available' => $this->faker->numberBetween(0,1),
+            'room_type_id' => $this->faker->numberBetween(1,5),
         ];
     }
 }
